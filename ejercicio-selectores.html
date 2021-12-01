@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+ 
+    <style>
+      body {
+            font-size: 20px;
+      }
+ 
+        .caja {
+            border: 1px solid brown;
+            margin: 3px;
+            display: inline-block;
+        }
+ 
+        input {
+            width: 70px;
+            text-align: center;
+        }
+ 
+        td {
+            border: 1px solid grey;
+            padding: 3px;
+ 
+        }
+    </style>
+ 
+ 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        //Crea una tabla de nf filas y nc columnas en el elemento id
+        function crearTabla(nf, nc, min, max, id) {
+            var html = "<table class='tabla'>";
+            for (var f = 0; f < nf; f++) {
+                html += "<tr>";
+                for (var c = 0; c < nc; c++) {
+                    var numero = Math.floor(Math.random() * max + min);
+                    html += `<td contenteditable>${numero}</td>`;
+                }
+                html += "</tr>"
+ 
+            }
+            html += "</table>";
+            $("#" + id).html(html);
+        }
+ 
+ 
+        $(document).ready(function () {
+            crearTabla(15, 15, 1, 100, "panel");
+ 
+            //crea botones con sus correspondientes ids y los mismos input text con sus ids
+            for (var b = 1; b <= 30; b++) {
+                $("#botones").append(
+                    `<div class='caja'><button id="boton${b}">Botón ${b}</button><input type="text" id="texto${b}"><div>`
+                );
+            }
+ 
+            $("#boton1").click(function () {
+                $("td:first , td:last").css("background-color", $("#texto1").val());
+            });
+ 
+            $("#boton2").click(function () {
+                $("td:even").css("background-color", $("#texto2").val());
+            });
+ 
+            $("#boton3").click(function () {
+                $("td:odd").css("background-color", $("#texto3").val());
+            });
+ 
+            $("#boton4").click(function () {
+                $("td").each(function () {
+                    var modulo = $(this).text() % 2;
+                    if (modulo != 0) {
+                        $(this).text($("#texto4").val())
+                    }
+                });
+            });
+ 
+            $("#boton5").click(function () {
+                $("td").each(function () {
+                    $(this).css("background-color", $("#texto5").val()).text(Math.floor(Math.random() * 100 + 1));
+                });
+            });
+
+            $("#boton6").click(function () {
+                 $("td").text($("#texto6").val())
+            });
+
+            $("#boton7").click(function () {
+                let suma=0;
+                $("td").each(function () {
+                    suma+=parseInt($(this).text());
+                });
+                $("#texto7").val(suma);
+            });
+
+            $("#boton8").click(function () {
+                let suma=0;
+                $("td:odd").each(function () {
+                    suma+=parseInt($(this).text());
+                });
+                $("#texto8").val(suma);
+            });
+
+            $("#boton9").click(function () {
+                $("td").each(function () {
+                    resta=parseInt($(this).text()-1);
+                    $(this).text(resta)
+                });
+            });
+
+            $("#boton10").click(function () {
+                var tds=$(".tabla tr:first td").length;
+                var nuevaFila="<tr>";
+                for (var i=0;i<tds;i++){
+                    var numero = Math.floor(Math.random() * 100 + 1);
+                    nuevaFila+=`<td>${numero}</td>`
+                }
+                nuevaFila+="</tr>";
+                $(".tabla").append(nuevaFila);
+            });
+
+            $("#boton11").click(function () {
+                var tds=$(".tabla tr:first td").length;
+                var nuevaFila="<tr>";
+                for (var i=0;i<tds;i++){
+                    var numero = Math.floor(Math.random() * 100 + 1);
+                    nuevaFila+=`<td>${numero}</td>`
+                }
+                nuevaFila+="</tr>";
+                $(".tabla").prepend(nuevaFila);
+            });
+
+            $("#boton12").click(function () {
+                $("td").each(function () {
+                    let numero;
+                    let resultado;
+                    let suma=parseInt($("#texto12").val());
+                    numero=parseInt($(this).text());
+                    resultado=suma+numero;
+                    $(this).text(resultado);
+                    if ( $("#texto12").val() == ""){
+                        resultado=1+numero;
+                        $(this).text(resultado);
+                    }
+                });
+            });
+
+            $("#boton13").click(function () {
+                var numero = $("#texto13").val();
+                if (numero == "") {
+                $("tr:first").remove();
+                } else {
+                    $("tr:nth-child(" + numero + ")").remove();
+                }
+            });
+
+
+            $("#boton14").click(function () {
+                let min = Math.min(parseInt($("td").text()));
+                $("td").each(function () {
+                    if ($this.val() == min ){
+                        $(this).css("background-color", $("#texto14").val()).text(Math.floor(Math.random() * 100 + 1));
+                    }    
+                });
+            });
+
+
+ 
+        });
+    </script>
+</head>
+ 
+<body>
+    <div id="panel">
+ 
+    </div>
+    <div id="botones">
+    </div>
+</body>
+ 
+</html>
